@@ -8,17 +8,18 @@ const jwtconfig = require('../jwt_config/index.js');
 exports.register = async (req, res) => {
     db(async () => {
         try {
-            const { account, password, identity, department, name, sex, email, imageUrl } = req.body;
+            const { account, password} = req.body;
 
             // 验证是否所有字段都已提供
-            if (!account || !password || !identity || !department || !name || !sex || !email) {
+            if (!account || !password) {
                 return res.status(400).send('所有字段均为必填项');
             }
 
-            // 检查账号或邮箱是否已存在
-            const existingUser = await User.findOne({ $or: [{ account }, { email }] });
+            // 检查账号是否已存在
+            const existingUser = await User.findOne({ $or: [{ account }] });
             if (existingUser) {
-                return res.status(400).send('账号或邮箱已被使用');
+                console.log('账号被占用')
+                return res.status(201).send('账号已被使用');
             }
 
             // 使用 bcrypt 对密码进行加密
@@ -28,12 +29,7 @@ exports.register = async (req, res) => {
             const newUser = new User({
                 account,
                 password: hashedPassword,
-                identity,
-                department,
-                name,
-                sex,
-                email,
-                imageUrl
+
             });
 
             console.log('new user info: ', newUser);
@@ -76,6 +72,8 @@ exports.login = async (req, res) => {
             if (!isMatch) {
                 return res.status(400).send('账号或密码错误');
             }
+
+            console.log("登录成功");
     
             // 生成 JWT 令牌
             const token = jwt.sign(
@@ -84,9 +82,15 @@ exports.login = async (req, res) => {
                 { expiresIn: '24h' } // 令牌过期时间
             );
     
-    
+            
+
             // 返回响应
-            res.status(200).json({ message: '登录成功', token });
+            // res.status(200).json({ message: '登录成功', token });
+            res.send({
+                status:200,
+                message:'登录成功',
+                token:token,
+            })
         } catch (error) {
             console.error('Error during login:', error);
             res.status(500).send('服务器错误');

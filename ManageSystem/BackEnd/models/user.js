@@ -13,28 +13,27 @@ const userSchema = new mongoose.Schema({
     },
     identity: {
         type: String,
-        required: true,
+        // required: true,
         trim: true
     },
     department: {
         type: String,
-        required: true,
+        // required: true,
         trim: true
     },
     name: {
         type: String,
-        required: true,
+        // required: true,
         trim: true
     },
     sex: {
         type: String,
-        required: true,
+        // required: true,
         trim: true
     },
     email: {
         type: String,
-        required: true,
-        unique: true,
+        // required: true,
         trim: true
     },
     imageUrl: {
