@@ -95,7 +95,7 @@
                 <span>登录日志</span>
               </el-menu-item>
 
-              <el-menu-item>
+              <el-menu-item index="set">
                 <el-icon>
                   <Tools></Tools>
                 </el-icon>
@@ -164,5 +164,78 @@
 </script>
 
 <style scoped>
+  .el-aside{
+    height: 100vh;
+    background:#2b303b;
+    width:210px;
+    overflow-x: hidden;
+  }
 
+  .el-aside .el-menu{
+    background: #2b303b;
+    color:#fff;
+    width:210px;
+    height:100vh;
+    border-right: 0;
+  }
+
+  .el-aside .title{
+    padding:20px;
+    display:flex;
+    justify-content: center;
+    color:#fff;
+    background: #2b303b;
+  }
+
+  .el-aside .el-menu-item{
+    color:#ffffff
+  }
+
+
+
+  .el-header{
+    display:flex;
+    height:55px;
+    background:#262f3e;
+    color:#c1c6c8;
+    justify-content: space-between;
+  }
+
+  .el-header .header-left-content{
+    line-height: 50px;
+    font-size: 14px
+  }
+
+  .el-header .header-right-content{
+    width:160px;
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .item{
+    cursor:pointer;
+  }
+
+  .el-main{
+    --el-main-padding:0;
+    background-color: #f3f4fa;
+  }
+
+  .el-menu-item:hover{
+    background-color: #006eff;
+  }
+
+  :deep(.el-sub-menu__title):hover{
+    background-color: #006eff;
+  }
+
+  :deep(.el-sub-menu__title){
+    background-color:#2b303b;
+    color:#fff;
+  }
+
+  :deep(.el-menu--inline){
+    background-color: #2b303b;
+  }
 </style>
