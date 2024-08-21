@@ -7,7 +7,7 @@
           <div class="account-info-wrapped">
             <span>用户头像</span>
             <div class="account-info-content"><!-- action 是上传头像的接口 -->
-              <el-upload class="avatar-uploader" action="http://127.0.0.1:3007/user/uploadAvatar"
+              <el-upload class="avatar-uploader" action="http://127.0.0.1:3007/users/uploadAvatar"
                 :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload"
                 name="avatar" 
                 >
@@ -41,7 +41,7 @@
           </div>
           <div class="account-info-wrapped">
             <span>用户性别</span>
-            <div class="account-info-content">
+            <div class="account-info-content" id="gender-selection">
               <el-select v-model="userData.sex" class="m-2" style="width:100px">
                 <el-option label="男" value="男"></el-option>
                 <el-option label="女" value="女"></el-option>
@@ -51,7 +51,27 @@
               </div>
             </div>
           </div>
-
+          <div class="account-info-wrapped">
+						<span>用户身份：</span>
+						<div class="account-info-content">
+							<el-input v-model="userData.identity" disabled></el-input>
+						</div>
+					</div>
+          <div class="account-info-wrapped">
+						<span>用户部门：</span>
+						<div class="account-info-content">
+							<el-input v-model="userData.department" disabled></el-input>
+						</div>
+					</div>
+          <div class="account-info-wrapped">
+						<span>用户邮箱：</span>
+						<div class="account-info-content">
+							<el-input v-model="userData.email"></el-input>
+						</div>
+						<div class="account-save-button">
+							<el-button type="primary" @click="saveEmail">保存</el-button>
+						</div>
+					</div>
 
 
 
@@ -76,10 +96,10 @@ import { bind, changeName, changeSex, changeEmail, getUserInfo } from '@/api/use
 
 
 onMounted(async () => {
-  let id = localStorage.getItem('id') as unknown as number;
-  const res = await getUserInfo(id) as any;
-
-  userData.account = res.account;
+  let account = localStorage.getItem('account') as unknown as string;
+  let res = await getUserInfo(account) as any;
+  res = res.data;
+  userData.account = account;
   userData.name = res.name;
   userData.sex = res.sex;
   userData.identity = res.identity;
@@ -89,7 +109,7 @@ onMounted(async () => {
 })
 
 interface user {
-  account: number | null,
+  account: string | null,
   name: string,
   sex: string,
   identity: string,
@@ -107,7 +127,6 @@ const userData: user = reactive({
   email: ''
 })
 
-
 let item = reactive({
   first: '系统设置',
 });
@@ -118,24 +137,22 @@ function handleClick(tab: any, event: any) {
   console.log(tab, event);
 }
 
-const handleAvatarSuccess = (response: any) => {
+const handleAvatarSuccess = async(response: any) => {
   console.log('response: ', response)
-  // if(response.status == 0){
-  //   userStore.$patch({
-  //     imageUrl:response.url
-  //   })
-  //   ElMessage({
-  //     message:'更新头像成功',
-  //     type:'success',
-  //   });
-  //   (async()=>{
-  //     const res = await bind(localStorage.getItem('account')as unknown as number,response.onlyId,response.url);
+  if(response.message ==='File uploaded successfully' ){
+    userStore.$patch({
+      imageUrl:'http://127.0.0.1:3007'+response.filePath
+    })
+    ElMessage({
+      message:'更新头像成功',
+      type:'success',
+    });
 
+    const res = await bind(localStorage.getItem('account')as unknown as string,response.filePath);
 
-  //   })
-  // }else{
-
-  // }
+  }else{
+    console.log('handleAvatarSucess() went wrong');
+  }
 }
 
 const beforeAvatarUpload = (rawFile: any) => {
@@ -149,15 +166,46 @@ const beforeAvatarUpload = (rawFile: any) => {
   return true;
 };
 
+const saveName = async() => {
+  const res = await changeName(userData.name,localStorage.getItem('account') as unknown as string)
+  
+  if(res.status === 200){
+    ElMessage({
+      message:'修改成功',
+      type:'success',
+    })
+  }else{
+    ElMessage.error('修改姓名失败');
+  }
+};
+
+const saveSex = async() => {
+  const res = await changeSex(userData.sex,localStorage.getItem('account') as unknown as string)
+  
+  if(res.status === 200){
+    ElMessage({
+      message:'修改成功',
+      type:'success',
+    })
+  }else{
+    ElMessage.error('修改性别失败');
+  }
+};
+
+const saveEmail = async() => {
+  const res = await changeEmail(userData.email,localStorage.getItem('account') as unknown as string)
+  
+  if(res.status === 200){
+    ElMessage({
+      message:'修改成功',
+      type:'success',
+    })
+  }else{
+    ElMessage.error('修改邮箱失败');
+  }
+};
+
 const openChangePassword = () => {
-
-};
-
-const saveName = async () => {
-
-};
-
-const saveSex = async () => {
 
 };
 
@@ -166,8 +214,64 @@ const saveSex = async () => {
 
 <style scoped>
 .common-wrapped {
-  padding: 8px;
+  padding: 3px ;
   background: #f5f5f5;
   height: calc(100vh - 101px);
 }
+
+.common-wrapped .common-content{
+  padding: 0 10px;
+  height: 100%;
+  background:#fff;
+}
+
+.common-content .account-info-wrapped{
+  display: flex;
+  align-items:center;
+  padding-left:50px;
+  margin-bottom:24px;
+  font-size:14px;
+}
+
+.account-info-wrapped .account-info-content{
+  margin-left:24px;
+  margin-right: 16px;
+}
+
+#gender-selection{
+  display: flex;
+}
+
+.account-save-button{
+  margin-left:16px;
+}
+
+
+
+</style>
+
+
+
+<style>
+ .avatar-uploader .el-upload{
+  width:100px;
+  height: 100px;
+  border:1px dashed #2b303b;
+  border-radius: 6px;
+  cursor:pointer;
+  position:relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+
+ }
+
+ .avatar-uploader .el-upload:hover{
+  border-color: #2b303b;
+ }
+
+ .el-icon.avatar-uploader-icon{
+  font-size: 28px;
+  color:#8c939d;
+ }
+
 </style>

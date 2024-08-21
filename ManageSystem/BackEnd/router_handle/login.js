@@ -88,6 +88,7 @@ exports.login = async (req, res) => {
             // res.status(200).json({ message: '登录成功', token });
             res.send({
                 status:200,
+                account:account,
                 message:'登录成功',
                 token:token,
             })

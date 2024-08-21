@@ -10,7 +10,6 @@
 <script setup lang="ts">
 
 const props = defineProps(['item']);
-console.log('item: ',props.item);
 
 </script> 
 

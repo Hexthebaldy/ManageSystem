@@ -128,7 +128,7 @@ const Login = async () => {
     console.log("res: ",res);
     if (res.message === "登录成功") {
         // const { id, name, account, email, department } = res.results;
-        const { token } = res
+        const { token,account } = res
         ElMessage({
             message: '登录成功',
             type: 'success'
@@ -136,6 +136,7 @@ const Login = async () => {
 
         // localStorage.setItem('id', id);
         localStorage.setItem('token', token);
+        localStorage.setItem('account',account);
         // localStorage.setItem('name', name);
         // localStorage.setItem('department', department);
         // await loginLog(account, name, email)

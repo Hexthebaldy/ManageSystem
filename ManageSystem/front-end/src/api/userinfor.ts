@@ -1,23 +1,22 @@
 import instance from "@/http";
 
 //获取用户信息
-export const getUserInfo = (id:number)=>{
+export const getUserInfo = (account:string)=>{
     return instance({
-        url:'users/getUsersInfo',
+        url:'users/getUserInfo',
         method:'POST',
         data:{
-            id
+            account
         }
     })
 };
 
-export const bind = (account:number,onlyId:any,url:any)=>{
+export const bind = (account:string,url:any)=>{
     return instance({
         url:'users/bindAccount',
         method:'POST',
         data:{
             account,
-            onlyId,
             url
         }
     })
@@ -26,7 +25,7 @@ export const bind = (account:number,onlyId:any,url:any)=>{
 //修改密码
 export const changePassword = (id:number,oldPassword:string,newPassword:string)=>{
     return instance({
-        url:'/user/changePassword',
+        url:'/users/changePassword',
         method:'POST',
         data:{
             id,
@@ -37,36 +36,36 @@ export const changePassword = (id:number,oldPassword:string,newPassword:string)=
 };
 
 //修改姓名
-export const changeName = (name:string, id:number)=>{
+export const changeName = (name:string, account:string)=>{
     return instance({
-        url:'/user/changeName',
+        url:'/users/changeName',
         method:'POST',
         data:{
             name,
-            id
+            account
         }
     })
 };
 
 //修改性别
-export const changeSex = (sex:string,id:number)=>{
+export const changeSex = (sex:string,account:string)=>{
     return instance({
-        url:'/user/changeSex',
+        url:'/users/changeSex',
         method:'POST',
         data:{
             sex,
-            id
+            account
         }
     })
 };
 
-export const changeEmail = (email:string,id:number)=>{
+export const changeEmail = (email:string,account:string)=>{
     return instance({
-        url:'/user/changeEmail',
+        url:'/users/changeEmail',
         method:'POST',
         data:{
             email,
-            id
+            account
         }
     })
 };

@@ -20,6 +20,14 @@ const upload = multer({storage:storage});
 
 
 router.post('/uploadAvatar',upload.single('avatar'), userinfoHandler.uploadAvatar);
+router.post('/bindAccount',userinfoHandler.bindAccount);
+router.post('/getUserInfo',userinfoHandler.getUserInfo);
+router.post('/changeName',userinfoHandler.changeName);
+router.post('/changePassword',userinfoHandler.changePassword);
+router.post('/changeSex',userinfoHandler.changeSex);
+router.post('/changeEmail',userinfoHandler.changeEmail);
+router.post('/createAdmin',userinfoHandler.createAdmin);
+
 
 
 module.exports = router
