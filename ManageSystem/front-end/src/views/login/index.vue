@@ -123,7 +123,8 @@ const Register =  async()=>{
 
 
 const Login = async () => {
-    const res = await login(loginData) as unknown as { message: string, token: string };
+    let res = await login(loginData) as unknown as any;
+    res = res.data;
     console.log("res: ",res);
     if (res.message === "登录成功") {
         // const { id, name, account, email, department } = res.results;
@@ -142,6 +143,7 @@ const Login = async () => {
         // store.userInfo(id);
         router.push('/home')
     }else{
+        console.log(res.message);
         ElMessage.error('登录失败');
     }
 }

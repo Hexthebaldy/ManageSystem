@@ -73,7 +73,7 @@ exports.login = async (req, res) => {
                 return res.status(400).send('账号或密码错误');
             }
 
-            console.log("登录成功");
+            console.log("账号密码正确");
     
             // 生成 JWT 令牌
             const token = jwt.sign(
@@ -91,6 +91,7 @@ exports.login = async (req, res) => {
                 message:'登录成功',
                 token:token,
             })
+            console.log('登录成功');
         } catch (error) {
             console.error('Error during login:', error);
             res.status(500).send('服务器错误');

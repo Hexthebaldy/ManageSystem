@@ -5,25 +5,17 @@ const Image = require('../models/image.js')
 const path = require('path');
 fs = require('fs');
 
+
 exports.uploadAvatar = async(req,res)=>{
     db(async()=>{
         try{
-            const onlyId = crypto.randomUUID;
-            let oldName = req.files[0].filename;
-            let newName = Buffer.from(req.files[0].originalname,'latin1').toString('utf8');
-            fs.renameSync('./public/upload'+oldName , './public/upload'+newName)
-            
-            const image = {
-                image_url:`http://127.0.0.1:3007/upload/${newName}`,
-                onlyId,
-    
-            };
-            await image.save();
-    
-            res.send({
-                onlyId,
-                status:0,
-                url:  `http://127.0.0.1:3007/upload/${newName}`,
+            if(!req.file){
+                return res.status(400).json({message: 'No file upload'});
+            }
+
+            res.json({
+                message:'File uploaded successfully',
+                filePath:`/upload/${req.file.filename}`,
             });
     
         }catch(err){
