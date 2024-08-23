@@ -11,15 +11,15 @@ export const getAllSwiper = ()=>{
 //获取公司名称
 export const getCompanyName = ()=>{
     return instance({
-        url:'',
+        url:'/set/getCompanyName',
         method:'POST',
     });
 };
 
 //修改公司名称
-export const changeCompanyName = (set_value:any)=>{
+export const changeCompanyName = (set_value:string)=>{
     return instance({
-        url:'',
+        url:'/set/changeCompanyName',
         method:'POST',
         data:{
             set_value
@@ -30,7 +30,7 @@ export const changeCompanyName = (set_value:any)=>{
 //获取公司介绍
 export const getCompanyIntroduce = (set_name:string)=>{
     return instance({
-        url:'',
+        url:'/set/getCompanyIntroduce',
         method:'POST',
         data:{
             set_name,
@@ -41,7 +41,7 @@ export const getCompanyIntroduce = (set_name:string)=>{
 //编辑公司介绍的接口
 export const changeCompanyIntroduce = (set_text:any,set_name:string)=>{
     return instance({
-        url:'',
+        url:'changeCompanyIntroduce',
         method:'POST',
         data:{
             set_text,
@@ -51,16 +51,26 @@ export const changeCompanyIntroduce = (set_text:any,set_name:string)=>{
 };
 
 //获取所有公司介绍
-export const getAllCompanyIntroduce = ()=>{
-    return instance({
-        url:'',
-        method:'POST',
+// export const getAllCompanyIntroduce = ()=>{
+//     return instance({
+//         url:'',
+//         method:'POST',
   
-    });
-};
+//     });
+// };
 
 //部门设置
 export const setDepartment = (data:any)=>{
+    return instance({
+        url:'',
+        method:'POST',
+        data:{
+            set_value:data
+        }
+    });
+};
+
+export const getDepartment = (data:any)=>{
     return instance({
         url:'',
         method:'POST',

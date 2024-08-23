@@ -72,17 +72,42 @@
 							<el-button type="primary" @click="saveEmail">保存</el-button>
 						</div>
 					</div>
-
-
-
-
         </el-tab-pane>
-        <el-tab-pane label="公司信息" name="second"></el-tab-pane>
+
+        <el-tab-pane label="公司信息" name="second">
+          <div class="account-info-wrapped">
+						<span>公司介绍</span>
+						<div class="account-info-content">
+							<el-button type="success" @click="openEditor(1)">编辑公司介绍</el-button>
+						</div>
+					</div>
+          <div class="account-info-wrapped">
+						<span>公司架构</span>
+						<div class="account-info-content">
+							<el-button type="success" @click="openEditor(2)">编辑公司介绍</el-button>
+						</div>
+					</div>
+          <div class="account-info-wrapped">
+						<span>公司战略</span>
+						<div class="account-info-content">
+							<el-button type="success" @click="openEditor(3)">编辑公司介绍</el-button>
+						</div>
+					</div>
+          <div class="account-info-wrapped">
+						<span>公司高层</span>
+						<div class="account-info-content">
+							<el-button type="success" @click="openEditor(4)">编辑公司介绍</el-button>
+						</div>
+					</div>
+        </el-tab-pane>
+
         <el-tab-pane label="首页管理" name="third"></el-tab-pane>
+        
         <el-tab-pane label="其他设置" name="fourth"></el-tab-pane>
       </el-tabs>
     </div>
   </div>
+  <editor ref="editorP"></editor>
 </template>
 
 <script setup lang="ts">
@@ -93,7 +118,9 @@ import { ElInput } from 'element-plus';
 import { Plus } from '@element-plus/icons-vue';
 import { useUserInfo } from '@/stores/userinfor';
 import { bind, changeName, changeSex, changeEmail, getUserInfo } from '@/api/userinfor';
-
+import { getCompanyName,changeCompanyName,getAllSwiper,setDepartment,getDepartment,setProduct,getProduct } from '@/api/setting';
+import {bus} from '@/utils/mitt';
+import editor from './components/editor.vue';
 
 onMounted(async () => {
   let account = localStorage.getItem('account') as unknown as string;
@@ -205,6 +232,67 @@ const saveEmail = async() => {
   }
 };
 
+//公司信息
+const companyName = ref();
+
+const returnCompanyName = async()=>{
+  companyName.value = await getCompanyName()
+}
+
+// returnCompanyName();
+
+//修改公司名字
+const resetCompanyName = async()=>{
+  const res = await changeCompanyName(companyName.value);
+  if(res.status == 200){
+    ElMessage({
+      message:'修改公司名称成功',
+      type:'success',
+    });
+  }else{
+    ElMessage.error('修改公司名称失败，请重新输入');
+  }
+}
+
+const editorP = ref()
+
+const openEditor = async(id:number)=>{
+  bus.emit('editorTitle',id);
+  console.log("editorP: ",editorP.value);
+  editorP.value.openDialog();
+
+};
+
+
+const swiperData = [{
+  name:'swiper1'
+},{
+  name:'swiper2'
+},{
+  name:'swiper3'
+},{
+  name:'swiper4'
+},{
+  name:'swiper5'
+},{
+  name:'swiper6'
+}]
+
+const imageUrl = ref<string[]>([])
+
+const returnAllSwiper = async()=>{
+  imageUrl.value = await getAllSwiper() as any
+}
+
+const handleSwiperSuccess = ()=>{
+  returnAllSwiper();
+};
+
+// returnAllSwiper();
+
+
+
+//修改密码没写完
 const openChangePassword = () => {
 
 };
