@@ -41,7 +41,7 @@ export const getCompanyIntroduce = (set_name:string)=>{
 //编辑公司介绍的接口
 export const changeCompanyIntroduce = (set_text:any,set_name:string)=>{
     return instance({
-        url:'changeCompanyIntroduce',
+        url:'/set/changeCompanyIntroduce',
         method:'POST',
         data:{
             set_text,

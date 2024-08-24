@@ -3,6 +3,7 @@ import Login from '../views/login/index.vue'
 import Menu from '../views/menu/index.vue'
 import Home from '../views/home/index.vue'
 import Set from '../views/set/index.vue'
+import Message from '../views/message/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +30,10 @@ const router = createRouter({
           name:'set',
           path:'/set',
           component:Set,
+        },{
+          name:'message',
+          path:'/message',
+          component:Message,
         }
       ]
     },

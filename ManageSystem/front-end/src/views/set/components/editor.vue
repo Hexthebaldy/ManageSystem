@@ -90,12 +90,14 @@ const closeDialog = () => {
 
 const cancel = () => {
   ElMessage.error('取消编辑')
-  closeDialog()
+  closeDialog();
 }
 
-const confirm = () => {
+const confirm = async() => {
   ElMessage.success('编辑成功')
-  closeDialog()
+  const result = await changeCompanyIntroduce(content.value,title.value);
+  console.log('changeIntroduction result: ',result);
+  closeDialog();
 }
 
 defineExpose({
