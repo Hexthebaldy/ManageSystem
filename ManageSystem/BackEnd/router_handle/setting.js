@@ -76,6 +76,7 @@ exports.getCompanyIntroduce = (req,res)=>{
             if (result && set_name in result) {
                 const introduction = result[set_name];
                 res.send(introduction);
+                console.log('introduction: ',introduction);
             } else {
                 res.status(407).send({ message: 'Field not found or document is empty' });
             }

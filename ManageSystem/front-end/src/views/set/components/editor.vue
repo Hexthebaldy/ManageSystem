@@ -22,13 +22,15 @@
 
 <script setup lang="ts">
 import '@wangeditor/editor/dist/css/style.css'
-import { ref, shallowRef } from 'vue'
+import { ref, shallowRef,nextTick,toRaw } from 'vue'
 import { Toolbar, Editor } from '@wangeditor/editor-for-vue'
 import { ElMessage } from 'element-plus'
+import { bus } from "@/utils/mitt.js"
+	import { changeCompanyIntroduce, getCompanyIntroduce } from '@/api/setting'
 
 const editorRef = shallowRef()
 const title = ref('编辑内容')
-const content = ref('<p>请输入内容...</p>')
+let content = ref('<p>输内容啊傻逼...</p>')
 const dialogVisible = ref(false)
 const mode = ref('default')
 
@@ -50,6 +52,33 @@ const editorConfig = {
     }
   }
 }
+
+bus.on("editorTitle", async (id : number) => {
+        let htmlContent = ref('');
+		
+        if (id == 1) {
+			title.value = '编辑公司介绍';
+			const result = await getCompanyIntroduce('introduction') ;
+            content.value = result.data;
+		}
+		if (id == 2) {
+			title.value = '编辑公司架构';
+			const result = await getCompanyIntroduce('frame'); 
+            content.value = result.data;
+		}
+		if (id == 3) {
+			title.value = '编辑公司战略';
+			const result = await getCompanyIntroduce('strategy');
+            content.value = result.data;
+             
+		}
+		if (id == 4) {
+			title.value = '编辑高层介绍';
+			const result = await getCompanyIntroduce('leaders');
+            content.value = result.data;
+		}
+
+	})
 
 const openDialog = () => {
   dialogVisible.value = true

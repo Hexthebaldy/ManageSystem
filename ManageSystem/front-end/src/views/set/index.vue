@@ -258,7 +258,7 @@ const editorP = ref()
 
 const openEditor = async(id:number)=>{
   bus.emit('editorTitle',id);
-  console.log("editorP: ",editorP.value);
+  // console.log("editorP: ",editorP.value);
   editorP.value.openDialog();
 
 };
