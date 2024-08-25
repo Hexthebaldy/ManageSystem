@@ -14,7 +14,7 @@
               <span>首页</span>
             </el-menu-item>
 
-            <el-menu-item>
+            <el-menu-item index="overview">
               <el-icon>
                 <Document />
               </el-icon>

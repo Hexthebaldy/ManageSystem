@@ -11,7 +11,7 @@
 			</el-carousel>
 		</div>
 		<!-- 栅格布局外壳 -->
-		<div class="layout-wrapped">
+		<!-- <div class="layout-wrapped">
 			<el-row :gutter="20">
 				<el-col :span="6" v-for="(item,index) in companyIntroduce" :key='index'   @click="openIntroduce(index+1)">
 					<div class="company-message-area">
@@ -20,7 +20,7 @@
 					</div>
 				</el-col>
 			</el-row>
-		</div>
+		</div> -->
 		<!-- 表格外壳 -->
 		<div class="two-table-wrapped">
 			<!-- 公司公告 -->
@@ -89,7 +89,9 @@
   const item = ref({
     first:'首页'
   });
-  const companyData = ref();
+  const companyData = ref(
+    
+);
   const systemData = ref();
   const imageUrl = ref([]);
   const companyIntroduce = ref<CompanyDataType[]>([]);
@@ -100,18 +102,25 @@
   const allSwiper = async()=>{
     const result = await getAllSwiper() as any;
     const swipersData = result.data;
-    console.log('swiperData: ',swipersData);
     for(let i=0;i<swipersData.length;i++){
       imageUrl.value.push('http://127.0.0.1:3007'+swipersData[i]['imageUrl'] as never)
     }
-    console.log('imageUrl: ',imageUrl);
   };
 
   allSwiper();
 
   const getMessageList = async()=>{
-    companyData.value = await companyMessageList();
+    const result = await companyMessageList();
+    const result2 = await systemMessageList();
+    companyData.value = result.data;
+    systemData.value = result2.data;
+    console.log('companyData: ',companyData.value);
+    console.log('systemData: ',systemData.value);
+
+
   }
+
+  getMessageList();
 
   const openIntroduce = async(id:number)=>{
 

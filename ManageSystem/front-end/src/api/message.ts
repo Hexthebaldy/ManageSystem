@@ -23,7 +23,7 @@ export const companyMessageList = ()=>{
     })
 };
 
-export const systemMessageList = (data:any)=>{
+export const systemMessageList = ()=>{
     return instance({
         url:'msg/systemMessageList',
         method:'POST'

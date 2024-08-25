@@ -8,6 +8,9 @@ const {expressjwt:jwt} = require('express-jwt');
 const loginRouter = require('./router/login.js');
 const userRouter = require('./router/userinfo.js');
 const setRouter = require('./router/setting.js');
+const msgRouter = require('./router/message.js');
+const ovRouter = require('./router/overview.js');
+
 
 
 app.use(cors());
@@ -24,6 +27,10 @@ app.use(bodyParser.json());
 app.use('/api',loginRouter);
 app.use('/users',userRouter);
 app.use('/set',setRouter);
+app.use('/msg',msgRouter);
+app.use('/ov',ovRouter);
+
+
 
 // Multer 是一个 node.js 中间件，用于处理 multipart/form-data 类型的表单数据，它主要用于上传文件。
 // const upload = multer({
