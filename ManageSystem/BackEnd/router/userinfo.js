@@ -26,7 +26,12 @@ router.post('/changeName',userinfoHandler.changeName);
 router.post('/changePassword',userinfoHandler.changePassword);
 router.post('/changeSex',userinfoHandler.changeSex);
 router.post('/changeEmail',userinfoHandler.changeEmail);
+router.post('/searchUser',userinfoHandler.searchUser);
+router.post('/returnListData',userinfoHandler.returnListData);
+router.post('/getAdminListLength',userinfoHandler.getAdminListLength);
 router.post('/createAdmin',userinfoHandler.createAdmin);
+router.post('/editAdmin',userinfoHandler.editAdmin);
+router.post('/changeIdentityToUser',userinfoHandler.changeIdentityToUser);
 
 
 

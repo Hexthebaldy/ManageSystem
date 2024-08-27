@@ -71,3 +71,79 @@ export const changeEmail = (email:string,account:string)=>{
 };
 
 //---------------------------------用户管理
+
+export const createAdmin = (data:any) => {
+	return instance({
+		url: '/users/createAdmin',
+		method: 'POST',
+		data: data,
+	})
+}
+
+
+export const searchUser = (account:string)=>{
+    return instance({
+        url:'/users/searchUser',
+        method:'POST',
+        data:{
+            account,
+
+        }
+    })
+};
+
+
+export const getAdminListLength = (identity:string)=>{
+    return instance({
+        url:'/users/getAdminListLength',
+        method:'POST',
+        data:{
+            identity
+        }
+    })
+};
+
+
+export const returnListData = (page:number,identity:string)=>{
+    return instance({
+        url:'/users/returnListData',
+        method:'POST',
+        data:{
+            page,
+            identity,
+        }
+    })
+};
+
+
+
+export const editAdmin = (data:any)=>{
+    return instance({
+		url: '/users/editAdmin',
+		method: 'POST',
+		data: data,
+	})
+
+};
+
+
+export const changeIdentityToUser = (account:string)=>{
+    return instance({
+		url: '/users/changeIdentityToUser',
+		method: 'POST',
+		data:{
+            account
+        }
+	});
+
+};
+
+
+export const deleteUser = (data:any)=>{
+    return instance({
+		url: '/users/deleteUser',
+		method: 'POST',
+		data: data,
+	});
+
+};

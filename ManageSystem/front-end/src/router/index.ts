@@ -5,6 +5,10 @@ import Home from '../views/home/index.vue'
 import Set from '../views/set/index.vue'
 import Message from '../views/message/index.vue'
 import Overview from '../views/overview/index.vue'
+import UserManage from '../views/user_manage/users_manage/index.vue'
+import ProductManage from '../views/user_manage/product_manage/index.vue'
+import MessageManage from '../views/user_manage/message_manage/index.vue'
+import UserList from '../views/user_manage/user_list/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +43,22 @@ const router = createRouter({
           name:'overview',
           path:'/overview',
           component:Overview,
+        },{
+          name:'users_manage',
+          path:'/users_manage',
+          component:UserManage,
+        },{
+          name:'product_manage',
+          path:'/product_manage',
+          component:ProductManage,
+        },{
+          name:'message_manage',
+          path:'/message_manage',
+          component:MessageManage
+        },{
+          name:'user_list',
+          path:'/user_list',
+          component:UserList
         }
       ]
     },

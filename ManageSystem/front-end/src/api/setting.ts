@@ -70,12 +70,12 @@ export const setDepartment = (data:any)=>{
     });
 };
 
-export const getDepartment = (data:any)=>{
+export const getDepartment = ()=>{
     return instance({
         url:'',
         method:'POST',
         data:{
-            set_value:data
+            
         }
     });
 };

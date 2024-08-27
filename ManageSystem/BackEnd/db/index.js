@@ -5,7 +5,7 @@ async function db(sucess,error) {
         console.log("linked to database : ManageSystem ");
         sucess();
     }catch(error){
-        console.error('Error performing database operations:', error);
+        console.error('Error linked to database operations:', error);
     }
     
 }
