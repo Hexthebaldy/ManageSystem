@@ -8,156 +8,156 @@ const path = require('path');
 fs = require('fs');
 
 
-exports.uploadAvatar = async(req,res)=>{
-    db(async()=>{
-        try{
-            if(!req.file){
-                return res.status(400).json({message: 'No file upload'});
+exports.uploadAvatar = async (req, res) => {
+    db(async () => {
+        try {
+            if (!req.file) {
+                return res.status(400).json({ message: 'No file upload' });
             }
-            
+
             res.json({
-                message:'File uploaded successfully',
-                filePath:`/upload/${req.file.filename}`,
+                message: 'File uploaded successfully',
+                filePath: `/upload/${req.file.filename}`,
             });
-            console.log('new avatar uploaded, url: ',`/upload/${req.file.filename}`);
-        }catch(err){
-            return res.status(500).send({status:1,message: '上传失败',error: err.message});
+            console.log('new avatar uploaded, url: ', `/upload/${req.file.filename}`);
+        } catch (err) {
+            return res.status(500).send({ status: 1, message: '上传失败', error: err.message });
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     })
 };
 
 
-exports.bindAccount = async(req,res) => { 
-    db(async()=>{
+exports.bindAccount = async (req, res) => {
+    db(async () => {
         const {
             account,
             url,
         } = req.body;
-    
-        try{            
-            const result = await Image.findOne({account});
 
-            if(result){
+        try {
+            const result = await Image.findOne({ account });
+
+            if (result) {
                 //修改头像
-                const updateOneResult = await Image.updateOne({filePath:url});
-                console.log('update one result: ',updateOneResult);
+                const updateOneResult = await Image.updateOne({ filePath: url });
+                console.log('update one result: ', updateOneResult);
                 res.json({
-                    state:200,
-                    message:'avatar updated',
-                    filePath:url
+                    state: 200,
+                    message: 'avatar updated',
+                    filePath: url
                 })
-            }else{
+            } else {
                 //创建新的 【用户-头像url】 记录
                 const newAvatar = new Image({
-                    account:account,
-                    filePath:url,
+                    account: account,
+                    filePath: url,
                 });
-                console.log('new Avatar: ',newAvatar);
+                console.log('new Avatar: ', newAvatar);
                 await newAvatar.save();
                 res.json({
-                    state:200,
-                    message:'new User-Avatar record created',
-                    filePath:url
+                    state: 200,
+                    message: 'new User-Avatar record created',
+                    filePath: url
                 })
             }
-        }catch(err){
+        } catch (err) {
             console.log('bindAccount api failed somehow !');
             return res.status(500).send({ status: 1, message: '绑定失败', error: err.message });
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     })
 };
 
 
-exports.getUserInfo = (req,res)=>{
-    db(async()=>{
-        try{
-            const {account} = req.body;
-            const result = await User.findOne({account});
-            if(result){
+exports.getUserInfo = (req, res) => {
+    db(async () => {
+        try {
+            const { account } = req.body;
+            const result = await User.findOne({ account });
+            if (result) {
                 res.send(result);
-            }else{
+            } else {
                 res.json({
-                    state:404,
-                    message:'no user found'
+                    state: 404,
+                    message: 'no user found'
                 })
                 console.log('no user found');
             }
-        }catch(err){
+        } catch (err) {
             console.log('getUserInfo api failed somehow !');
             return res.status(500).send({ status: 1, message: '查询失败', error: err.message });
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     });
 };
 
 //没写
-exports.changePassword = (req,res)=>{
-    db(async()=>{
-        try{
-            
-        }catch(err){
+exports.changePassword = (req, res) => {
+    db(async () => {
+        try {
+
+        } catch (err) {
 
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     });
 };
 
 
-exports.changeName = (req,res)=>{
-    db(async()=>{
-        try{
-            const {account,name} = req.body;
-            const updateOneResult = await User.updateOne({account:account},{name:name});
+exports.changeName = (req, res) => {
+    db(async () => {
+        try {
+            const { account, name } = req.body;
+            const updateOneResult = await User.updateOne({ account: account }, { name: name });
             res.json({
-                state:200,
-                message:'修改姓名成功'
+                state: 200,
+                message: '修改姓名成功'
             })
-        }catch(err){
+        } catch (err) {
             return res.status(500).send({ status: 1, message: '修改姓名失败', error: err.message });
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     });
 };
 
 
-exports.changeSex = (req,res)=>{
-    db(async()=>{
-        try{
-            const {account,sex} = req.body;
-            const updateOneResult = await User.updateOne({account:account},{sex:sex});
+exports.changeSex = (req, res) => {
+    db(async () => {
+        try {
+            const { account, sex } = req.body;
+            const updateOneResult = await User.updateOne({ account: account }, { sex: sex });
             res.json({
-                state:200,
-                message:'修改性别成功'
+                state: 200,
+                message: '修改性别成功'
             })
-        }catch(err){
+        } catch (err) {
             return res.status(500).send({ status: 1, message: '修改性别失败', error: err.message });
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     });
 };
 
 
-exports.changeEmail = (req,res)=>{
-    db(async()=>{
-        try{
-            const {account,email} = req.body;
-            const updateOneResult = await User.updateOne({account:account},{email:email});
+exports.changeEmail = (req, res) => {
+    db(async () => {
+        try {
+            const { account, email } = req.body;
+            const updateOneResult = await User.updateOne({ account: account }, { email: email });
             res.json({
-                state:200,
-                message:'修改邮箱成功'
+                state: 200,
+                message: '修改邮箱成功'
             })
-        }catch(err){
+        } catch (err) {
             return res.status(500).send({ status: 1, message: '修改邮箱失败', error: err.message });
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     });
 };
@@ -166,107 +166,107 @@ exports.changeEmail = (req,res)=>{
 
 // ----------------------------------------用户管理
 
-exports.getAdminList = (req,res)=>{
-    db(async()=>{
-        try{
+exports.getAdminList = (req, res) => {
+    db(async () => {
+        try {
 
-        }catch(err){
-            
+        } catch (err) {
+
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     })
 };
 
 
-exports.searchUser = async(req, res)=>{
-    db(async()=>{
-        try{
-            const {account} = req.body;
-            const result = await User.findOne({account});
+exports.searchUser = async (req, res) => {
+    db(async () => {
+        try {
+            const { account } = req.body;
+            const result = await User.findOne({ account });
             const users = [];
             users.push(result);
-            if(users){
+            if (users) {
                 res.send(users);
-            }else{
+            } else {
                 res.json({
-                    state:404,
-                    message:'no user found'
+                    state: 404,
+                    message: 'no user found'
                 })
                 // console.log('no user found');
             }
-        }catch(err){
+        } catch (err) {
             console.log('searchUser api failed somehow !');
             return res.status(500).send({ status: 1, message: '查询失败', error: err.message });
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     });
 };
 
 
-exports.returnListData = (req, res)=>{
-    db(async()=>{
-        try{
-            const {page,identity} = req.body;
-            const result = await User.find({identity});
+exports.returnListData = (req, res) => {
+    db(async () => {
+        try {
+            const { page, identity } = req.body;
+            const result = await User.find({ identity });
 
             let arr = [];
-            for(let i=0;i<10;i++){
-                if(!result[10*(page-1)+i]){
+            for (let i = 0; i < 10; i++) {
+                if (!result[10 * (page - 1) + i]) {
                     break;
                 }
-                arr.push(result[10*(page-1)+i]);
+                arr.push(result[10 * (page - 1) + i]);
             }
 
-            if(arr){
+            if (arr) {
                 // console.log('sent arr : ',arr);
                 res.send(arr);
-            }else{
+            } else {
                 res.json({
-                    state:404,
-                    message:'no user found'
+                    state: 404,
+                    message: 'no user found'
                 })
                 console.log('no user found');
             }
-        }catch(err){
+        } catch (err) {
             console.log('returnListData api failed somehow !');
             return res.status(500).send({ status: 1, message: '查询失败', error: err.message });
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     });
 };
 
 
-exports.getAdminListLength = (req,res)=>{
-    db(async()=>{
-        try{
-            const {identity} = req.body;
-            const result = await User.find({identity});
+exports.getAdminListLength = (req, res) => {
+    db(async () => {
+        try {
+            const { identity } = req.body;
+            const result = await User.find({ identity });
             const length = result.length;
-            if(length>-1){
+            if (length > -1) {
                 res.send(length.toString());
-            }else{
+            } else {
                 res.json({
-                    state:404,
-                    message:'no user found'
+                    state: 404,
+                    message: 'no user found'
                 })
                 console.log('no user found');
             }
-        }catch(err){
+        } catch (err) {
             console.log('getAdminListLength api failed somehow !');
             return res.status(500).send({ status: 1, message: '查询失败', error: err.message });
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     });
 };
 
 //添加管理员
-exports.createAdmin = (req,res)=>{
-    db(async()=>{
-        try{
+exports.createAdmin = (req, res) => {
+    db(async () => {
+        try {
             const {
                 account,
                 password,
@@ -281,7 +281,7 @@ exports.createAdmin = (req,res)=>{
 
             const newUser = new User({
                 account,
-                password:hashedPassword,
+                password: hashedPassword,
                 name,
                 sex,
                 department,
@@ -290,21 +290,21 @@ exports.createAdmin = (req,res)=>{
             });
 
             await newUser.save();
-            console.log('added newUser: ',newUser);
+            console.log('added newUser: ', newUser);
             res.status(201).send('管理员添加成功');
-        }catch(err){
+        } catch (err) {
             console.error('Error during addtion:', err);
             res.status(500).send('服务器错误');
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     });
 };
 
 
-exports.editAdmin = (req,res)=>{
-    db(async()=>{
-        try{
+exports.editAdmin = (req, res) => {
+    db(async () => {
+        try {
             const {
                 account,
                 password,
@@ -319,46 +319,157 @@ exports.editAdmin = (req,res)=>{
             const data = req.body;
 
             const updateFields = {};
-            for(let key in data){
-                if(key !== 'account'){
+            for (let key in data) {
+                if (key !== 'account') {
                     updateFields[key] = data[key];
                 }
             }
 
             const result = await User.findOneAndUpdate(
-                {account:account},
-                {$set:updateFields},
-                { new: true, runValidators: true } 
+                { account: account },
+                { $set: updateFields },
+                { new: true, runValidators: true }
             );
             res.send('201');
-        }catch(err){
+        } catch (err) {
             console.error('Error during addtion:', err);
             res.status(500).send('服务器错误');
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     })
 }
 
 
-exports.changeIdentityToUser = (req,res)=>{
-    db(async()=>{
-        try{
+exports.changeIdentityToUser = (req, res) => {
+    db(async () => {
+        try {
             const {
                 account,
             } = req.body;
 
             const result = await User.findOneAndUpdate(
-                {account:account},
-                {identity:'用户'},
+                { account: account },
+                { identity: '用户' },
             );
-            console.log('result: ',result);
+            console.log('result: ', result);
             res.send('降级成功');
-        }catch(err){
+        } catch (err) {
             console.error('Error during addtion:', err);
             res.status(500).send('服务器错误');
         }
-    },()=>{
+    }, () => {
         console.log("db[ManageSystem] connection failed !");
     })
-}
+};
+
+
+exports.searchUsersByDepatment = async (req, res) => {
+    db(async () => {
+        try {
+            const { department } = req.body;
+            const result = await User.find({ department });
+            const users = [];
+
+            for (let i = 0; i < result.length; i++) {
+                if (result[i]['identity'] == '用户') {
+                    users.push(result[i]);
+                }
+            }
+
+            if (users) {
+                res.send(users);
+            } else {
+                res.json({
+                    state: 404,
+                    message: 'no user found'
+                })
+                // console.log('no user found');
+            }
+        } catch (err) {
+            console.log('searchUser api failed somehow !');
+            console.log('err: ', err);
+            return res.status(500).send({ status: 1, message: '查询失败', error: err.message });
+        }
+    }, () => {
+        console.log("db[ManageSystem] connection failed !");
+    });
+};
+
+
+exports.getBanList = async (req, res) => {
+    db(async () => {
+        try {
+            const result = await User.find({ status:'0' });
+
+            if (result) {
+                res.send(result);
+            } else {
+                res.json({
+                    state: 404,
+                    message: 'no user found'
+                })
+                // console.log('no user found');
+            }
+        } catch (err) {
+            console.log('searchUser api failed somehow !');
+            console.log('err: ', err);
+            return res.status(500).send({ status: 1, message: '查询失败', error: err.message });
+        }
+    }, () => {
+        console.log("db[ManageSystem] connection failed !");
+    });
+};
+
+
+exports.banUser = (req, res) => {
+    db(async () => {
+        try {
+            const {
+                account,
+            } = req.body;
+
+            console.log('account: ',account);
+            const result = await User.findOneAndUpdate(
+                { account: account },
+                { $set: { status: '0' } },
+                { new: true }  // 这会返回更新后的文档
+            );
+            console.log('ban user result: ', result);
+            res.send('冻结成功');
+        } catch (err) {
+            console.error('Error during addtion:', err);
+            res.status(500).send('服务器错误');
+        }
+    }, () => {
+        console.log("db[ManageSystem] connection failed !");
+    })
+};
+
+
+exports.hotUser = (req, res) => {
+    db(async () => {
+        try {
+            const {
+                account,
+            } = req.body;
+
+            console.log('account: ',account);
+            const result = await User.findOneAndUpdate(
+                { account: account },
+                { $set: { status: '1' } },
+                { new: true }  // 这会返回更新后的文档
+            );
+            console.log('hot user result: ', result);
+            res.send('解冻成功');
+        } catch (err) {
+            console.error('Error during addtion:', err);
+            res.status(500).send('服务器错误');
+        }
+    }, () => {
+        console.log("db[ManageSystem] connection failed !");
+    })
+};
+
+
+

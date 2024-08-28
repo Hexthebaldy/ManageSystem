@@ -116,7 +116,6 @@ export const returnListData = (page:number,identity:string)=>{
 };
 
 
-
 export const editAdmin = (data:any)=>{
     return instance({
 		url: '/users/editAdmin',
@@ -145,5 +144,50 @@ export const deleteUser = (data:any)=>{
 		method: 'POST',
 		data: data,
 	});
+
+};
+
+
+export const searchDepartment = (department:string)=>{
+    return instance({
+		url: 'users/searchUsersByDepatment',
+		method: 'POST',
+        data:{
+            department
+        }
+	})
+
+};
+
+
+export const getBanList = ()=>{
+    return instance({
+		url: 'users/getBanList',
+		method: 'POST',
+	})
+
+};
+
+
+export const banUser = (account:string)=>{
+    return instance({
+		url: 'users/banUser',
+		method: 'POST',
+        data:{
+            account,
+        }
+	})
+
+};
+
+
+export const hotUser = (account:string)=>{
+    return instance({
+		url: 'users/hotUser',
+		method: 'POST',
+        data:{
+            account,
+        }
+	})
 
 };

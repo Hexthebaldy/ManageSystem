@@ -32,6 +32,10 @@ router.post('/getAdminListLength',userinfoHandler.getAdminListLength);
 router.post('/createAdmin',userinfoHandler.createAdmin);
 router.post('/editAdmin',userinfoHandler.editAdmin);
 router.post('/changeIdentityToUser',userinfoHandler.changeIdentityToUser);
+router.post('/searchUsersByDepatment',userinfoHandler.searchUsersByDepatment);
+router.post('/getBanList',userinfoHandler.getBanList);
+router.post('/banUser',userinfoHandler.banUser);
+router.post('/hotUser',userinfoHandler.hotUser);
 
 
 

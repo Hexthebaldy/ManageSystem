@@ -47,7 +47,12 @@ const userSchema = new mongoose.Schema({
     update_time: {
         type: Date,
         default: Date.now
-    }
+    },
+    status: {
+        type: String,
+        // required: true,
+        trim: true
+    },
 }, { timestamps: { createdAt: 'create_time', updatedAt: 'update_time' } });
 
 const User = mongoose.model('User', userSchema);
