@@ -2,14 +2,14 @@
 const db = require('../db/index')
 // const moment = require('moment')
 const { func } = require('joi')
-const Product = require('../models/product');
+const ProductType = require('../models/producttype');
 const Companymessage = require('../models/companymessage')
 
 // 获取产品类别和总价
 exports.getCategoryAndNumber = (req, res) => {
     db(async()=>{
         try{
-            const result = await Product.find();
+            const result = await ProductType.find();
             const data2 = result.data;
             const data = {
                 category: [],
@@ -26,7 +26,7 @@ exports.getCategoryAndNumber = (req, res) => {
                 data:data
             })
         }catch(err){
-            console.err(err);
+            console.log(err);
             res.status(500).send({message:'Database query failed'});
         }
     },()=>{

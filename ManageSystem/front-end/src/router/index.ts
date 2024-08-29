@@ -9,6 +9,7 @@ import UserManage from '../views/user_manage/users_manage/index.vue'
 import ProductManage from '../views/user_manage/product_manage/index.vue'
 import MessageManage from '../views/user_manage/message_manage/index.vue'
 import UserList from '../views/user_manage/user_list/index.vue'
+import ProductListManage from '../views/product/product_manage_list/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,6 +60,10 @@ const router = createRouter({
           name:'user_list',
           path:'/user_list',
           component:UserList
+        },{
+          name:'product_list_manage',
+          path:'/product_list_manage',
+          component:ProductListManage
         }
       ]
     },

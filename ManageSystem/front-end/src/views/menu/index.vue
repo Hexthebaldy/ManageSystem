@@ -49,7 +49,7 @@
               </template>
 
               <el-menu-item-group title="入库管理">
-                <el-menu-item>产品列表</el-menu-item>
+                <el-menu-item index="product_list_manage">产品列表</el-menu-item>
               </el-menu-item-group>
 
               <el-menu-item-group title="出库管理">

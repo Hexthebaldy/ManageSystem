@@ -142,9 +142,9 @@
 		</div>
 	</div>
 	<!-- 入库操作影响产品列表 -->
-	<!-- <warehousing ref="in_warehouse" @success='getProductFirstPageList'></warehousing> -->
+	<warehousing ref="in_warehouse" @success='getProductFirstPageList'></warehousing>
 	<!-- 申请操作影响审核列表 -->
-	<!-- <apply ref="apply_product" @success='changeTwoPageList'></apply> -->
+	<apply ref="apply_product" @success='changeTwoPageList'></apply>
 	<!-- 编辑操作影响产品列表 -->
 	<!-- <edit ref="edit_product" @success='getProductFirstPageList'></edit> -->
 	<!-- 删除操作影响产品列表 -->
@@ -163,21 +163,21 @@ import {
 		reactive,
 	} from 'vue'
 	import breadCrumb from '@/components/bread_crumb.vue'
-	// import warehousing from '../components/product_in_warehouse.vue'
-	// import apply from '../components/apply.vue'
-	// import edit from '../components/edit_product.vue'
-	// import remove from '../components/delete_product.vue'
-	// import audit from '../components/audit.vue'
-	// import withdraw from '../components/withdraw.vue'
-	// import again from '../components/again_apply.vue'
-	// import {
-	// 	searchProductForId,
-	// 	searchProductForApplyId,
-	// 	getProductLength,
-    // getApplyProductLength,
-	// 	returnProductListData,
-	// 	returnApplyProductListData,
-	// } from '@/api/product'
+	import warehousing from '../components/product_in_warehouse.vue'
+	import apply from '../components/apply.vue'
+	import edit from '../components/edit_product.vue'
+	import remove from '../components/delete_product.vue'
+	import audit from '../components/audit.vue'
+	import withdraw from '../components/withdraw.vue'
+	import again from '../components/again_apply.vue'
+	import {
+		searchProductForId,
+		searchProductForApplyId,
+		getProductLength,
+    getApplyProductLength,
+		returnProductListData,
+		returnApplyProductListData,
+	} from '../../../api/product'
 	import {
 		bus
 	} from "@/utils/mitt.js"
@@ -193,10 +193,143 @@ import {
 	const item = ref({
 		first: '产品管理',
 		second: '产品列表'
-	})
+	});
+    const activeName = ref('first');
+    const productId = ref<number>();
+    const productOutId = ref<number>();
+    const tableData = ref([]);
+    //产品申请出库表格
+    const applyTableData = ref([]);
+    const paginationData = reactive({
+        productTotal:0,
+        productPageCount:0,
+        productCurrentPage:1,
+        applyProductTotal:0,
+        applyProductCount:0,
+        applyProductCurrentPage:1,
+    });
+    const in_warehouse = ref();
+    const apply_product = ref();
+    const edit_product = ref();
+    const delete_product = ref();
+    const audit_product = ref();
+    const withdraw_product = ref();
+    const again_product = ref();
+
+
+    
+    const handleClick = (tab:TabsPaneContext)=>{
+        if(tab.props.label == '产品列表'){
+            getProductFirstPageList();
+        }
+        if(tab.props.label == '审核列表'){
+            getApplyProductFirstPageList();
+        }
+    }
+
+    const getProductListLength = async()=>{
+        const res = await getProductLength() as any; 
+        paginationData.productTotal =res.data-0;
+        paginationData.productPageCount = Math.ceil(res.data.length/10);
+    };
+
+    const getApplyProductListLength = async()=>{
+        const res = await getApplyProductLength() as any;
+        paginationData.applyProductTotal = res.data.length;
+        paginationData.applyProductCount = Math.ceil(res.data.length/10);
+    };
+
+    const getProductFirstPageList = async()=>{
+        const res = await returnProductListData(1) as any;
+        tableData.value = res.data; 
+    };
+
+    const getApplyProductFirstPageList = async()=>{
+        const res = await returnApplyProductListData(1) as any;
+        applyTableData.value = res.data;
+    };
+
+    const changeTwoPageList = ()=>{
+        getProductFirstPageList();
+        getApplyProductFirstPageList();
+    };
+
+    //产品列表监听换页
+    const productCurrentChange = async(value:number)=>{
+        paginationData.productCurrentPage = value;
+        const res = await returnProductListData(paginationData.productCurrentPage) as any;
+        tableData.value = res.data;
+    };
+
+    //申请列表监听换页
+    const applyProductCurrentChange = async(value:number)=>{
+        paginationData.applyProductCurrentPage = value;
+        const res = await returnApplyProductListData(paginationData.applyProductCurrentPage) as any;
+        tableData.value = res.data;
+    };
+
+    //通过产品入库id去搜索
+    const searchProduct = async()=>{
+        const res = await searchProductForId(productId.value as number) as any;
+        tableData.value = res.data;
+    };
+
+    //通过产品申请出库id去搜索
+    const searchApplyProduct = async()=>{
+        const res = await searchProductForApplyId(productId.value as number)as any;
+        tableData.value = res.data;
+    };
+
+    //打开产品入库
+    const productInWarehouse = ()=>{
+        in_warehouse.value.open();
+    };
+
+    //产品申请出库
+    const applyOut = (row:any) => {
+        bus.emit('',row);
+        apply_product.value.open();
+    };
+
+    //编辑产品信息
+    const editProduct = (row:any)=>{
+        bus.emit('',row);
+        edit_product.value.open();
+    };
+
+    //删除产品
+    const deleteProduct = (id:number)=>{
+        bus.emit('',id);
+        delete_product.value.open();
+    };
+
+    //审核产品
+    const auditProduct = (row:any)=>{
+        bus.emit('',row);
+        audit_product.value.open();
+    };
+
+    //撤回产品申请
+    const withdrawProduct = (id:number)=>{
+        bus.emit('',id);
+        withdraw_product.value.open();
+    };
+
+    //再次申请产品出库
+    const againApply = (row:any)=>{
+        bus.emit('',row);
+        again_product.value.open();
+    };
 
 
 
+
+
+
+
+    getProductListLength();
+    getProductFirstPageList();
+    getApplyProductFirstPageList();
 </script>
 
 <style scoped>
