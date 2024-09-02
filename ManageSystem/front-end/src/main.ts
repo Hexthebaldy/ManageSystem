@@ -5,6 +5,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import pinia from './stores'
+import type { NavigationGuardNext, RouteLocation, RouteLocationNormalized } from 'vue-router'
 
 const app = createApp(App)
 
@@ -12,6 +13,14 @@ const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
+
+router.beforeEach((to:RouteLocationNormalized,from:RouteLocation,next:NavigationGuardNext)=>{
+  const token = localStorage.getItem('token');
+
+  // alert(token);
+  if(to.name !== 'login' && !token ) next ({name:'login'});
+  else next();
+})
 
 // 使用插件
 app.use(ElementPlus)

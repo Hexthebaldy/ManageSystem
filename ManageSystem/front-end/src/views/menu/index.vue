@@ -74,21 +74,21 @@
               </el-menu-item-group>
             </el-sub-menu>
 
-              <el-menu-item>
+              <el-menu-item index="file">
                 <el-icon>
                   <icon-menu></icon-menu>
                 </el-icon>
                 <span>合同管理</span>
               </el-menu-item>
 
-              <el-menu-item>
+              <el-menu-item index="operation">
                 <el-icon>
                   <icon-menu></icon-menu>
                 </el-icon>
                 <span>操作日志</span>
               </el-menu-item>
 
-              <el-menu-item>
+              <el-menu-item index="log">
                 <el-icon>
                   <icon-menu></icon-menu>
                 </el-icon>
